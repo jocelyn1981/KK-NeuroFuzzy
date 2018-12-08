@@ -27,14 +27,14 @@ mfc = membershipfunction.MemFuncs(mf)
 
 anf = anfis.ANFIS(x_train, y_train, mfc)
 #anf.trainHybridJangOffLine(epochs=10)
-anf.trainHybridJangOffLine(epochs=5)
+anf.trainHybridJangOffLine(epochs=3)
 y_predicted = []
 
 
-print("fitted values;", round(anf.fittedValues[y_test[1]], 1))
-'''
+# print("fitted values;", round(anf.fittedValues[y_test[1]], 1))
+
 for i in range(len(y_test)):
-    res = round(anf.fittedValues[y_test[i]],1)
+    res = round(anf.fittedValues[y_test[i]][0],1)
     if abs(res - 0) < abs(res - 1):
         y_predicted.append(0)
     elif abs(res - 0) > abs(res - 1):
@@ -44,6 +44,7 @@ trupred = 0
 print (y_test)
 print (y_predicted)
 
+'''
 # check accuracy
 for i in range(len(y_predicted)):
     if y_predicted[i] == y_test[i]:
