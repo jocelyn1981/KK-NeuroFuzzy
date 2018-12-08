@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 
 from sklearn.datasets import load_wine
 from sklearn.decomposition import PCA
+import membershipsteven as mbpstev
 import numpy as np
 
 wine = load_wine()
@@ -16,13 +17,13 @@ Y = wine.target
 # https://scikit-learn.org/stable/modules/feature_selection.html
 # https://scikit-learn.org/stable/modules/unsupervised_reduction.html
 
-'''
+
 pca = PCA(n_components = 4)
 X_less = pca.fit_transform(X)
 print (X_less.shape)
 wine.data = X_less
 X = X_less
-'''
+
 
 # print(X)
 # print(Y)
@@ -34,9 +35,9 @@ print("Length of Y test: ", len(y_size))
 
 def get_membership(dataset):
     mf = []
-    for i in enumerate(dataset.feature_names): # feature_size
+    for i in range(4): # feature_size
         gauss = []
-        for j in enumerate(dataset.target_names): # target_class
+        for j, tname in enumerate(dataset.target_names): # target_class
             filtered = []
             for k, target in enumerate(dataset.target):
                 if (target == j):
@@ -48,11 +49,13 @@ def get_membership(dataset):
     return mf
 
 mf = get_membership(wine)
+#mf = mbpstev.get_mf(wine)
 print(mf)
+
 
 mfc = membershipfunction.MemFuncs(mf)
 anf = anfis.ANFIS(X_train, Y_train, mfc)
-anf.trainHybridJangOffLine(epochs = 5)
+anf.trainHybridJangOffLine(epochs = 10)
 
 Y_predict = []
 
@@ -62,3 +65,4 @@ for i in range(len(Y_test)):
 
 anf.plotErrors()
 anf.plotResults()
+
